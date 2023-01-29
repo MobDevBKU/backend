@@ -2,33 +2,33 @@ version: "3.5"
 services:
   postgres:
     image: postgres:15
-    container_name: sensormanagerdb
+    container_name: mobdevbku_db
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
     networks:
-      - sensor_manager_network
+      - app_network
     volumes:
-      - sensor_manager_db:/var/lib/postgresql/data
+      - mobdevbku_appdb:/var/lib/postgresql/data
     restart: always
 
-  sensor-manager-api:
+  backend:
     build:
       context: .
       dockerfile: ./Dockerfile
-    image: ghcr.io/hpcmonitoring/sensor-manager-api:0.1.0
-    container_name: hpcmonitoring_sensor-manager-api
+    image: ghcr.io/mobdevbku/backend:0.1.0
+    container_name: mobdevbku_backend
     environment:
-      - POSTGRES_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@sensormanagerdb:5432/${POSTGRES_DB}?schema=public
+      - POSTGRES_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@mobdevbku_db:5432/${POSTGRES_DB}?schema=public
     networks:
-      - sensor_manager_network
+      - app_network
     ports:
       - 8080:8080
       
 volumes:
-  sensor_manager_db:
+  mobdevbku_appdb:
 
 networks:
-  sensor_manager_network:
+  app_network:
     driver: bridge
