@@ -1,0 +1,53 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "sourceRoot": "src",
+        "outDir": "dist",
+        "module": "CommonJS",
+        "target": "ESNext",
+        "allowJs": true,
+        "sourceMap": true,
+        "declaration": false,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "moduleResolution": "node",
+        "isolatedModules": false,
+        "suppressImplicitAnyIndexErrors": false,
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "allowSyntheticDefaultImports": true,
+        "importHelpers": true,
+        "newLine": "LF",
+        "noEmit": true,
+        "esModuleInterop": true,
+        "resolveJsonModule": true,
+        "lib": ["ESNext", "dom", "ESNext.AsyncIterable"],
+        "typeRoots": ["./node_modules/@types"],
+        "paths": {
+            "@controllers": ["./src/controllers"],
+            "@controllers/*": ["./src/controllers/*"],
+            "@constants": ["src/constants"],
+            "@constants/*": ["src/constants/*"],
+            "@services": ["src/services"],
+            "@services/*": ["src/services/*"],
+            "@schemas/in": ["src/schemas/in"],
+            "@schemas/in/*": ["src/schemas/in/*"],
+            "@schemas/out": ["src/schemas/out"],
+            "@schemas/out/*": ["src/schemas/out/*"],
+            "@configs": ["src/configs"],
+            "@configs/*": ["src/configs/*"],
+            "@types": ["src/types"],
+            "@types/*": ["src/types/*"],
+            "@repositories": ["src/prisma"],
+            "@utils": ["src/utils"],
+            "@exceptions": ["src/exceptions"]
+        }
+    },
+    "include": ["src", "**/*.js", "**/*.ts"],
+    "exclude": ["node_modules", "dist", "coverage"],
+    "linterOptions": {
+        "exclude": []
+    }
+}
