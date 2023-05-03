@@ -17,8 +17,8 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    image: ghcr.io/phucvinh57/fastify-template:0.1.0
-    container_name: fastify_template
+    image: ghcr.io/mobdevbku/buswise-be:0.1.0
+    container_name: buswise_be
     ports:
       - 8080:8080
     volumes:

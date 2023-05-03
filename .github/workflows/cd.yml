@@ -8,10 +8,10 @@ env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
   # Image name MUST have a pattern like <org_name_lowercase>/<repo_name_lowercase>
-  IMAGE_NAME: phucvinh57/fastify-template
+  IMAGE_NAME: mobdevbku/buswise-be
   IMAGE_TAG: 0.1.0
   # username login to ghcr MUST be organization or personal name in lower case
-  CD_USERNAME: phucvinh57
+  CD_USERNAME: mobdevbku
 
 permissions:
   packages: write
@@ -77,7 +77,7 @@ jobs:
   #           echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
   #           echo CORS_WHITE_LIST=${{ vars.CORS_WHITE_LIST }} >> .env
             
-  #           # curl https://raw.githubusercontent.com/phucvinh57/fastify-template/master/docker-compose.yml -o docker-compose.yml
+  #           # curl https://raw.githubusercontent.com/mobdevbku/buswise-be/master/docker-compose.yml -o docker-compose.yml
   #           docker-compose stop fastify
   #           docker-compose rm -f fastify
   #           docker-compose up -d fastify
