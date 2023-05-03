@@ -6,8 +6,6 @@
         "./src/dtos/out",
         "./src/configs",
         "./src/middlewares",
-        "./src/services",
-        "./src/interfaces",
         "./src/repositories",
         "./src/utils"
     ],
