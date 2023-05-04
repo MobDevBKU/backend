@@ -1,14 +1,22 @@
 import { USER_NOT_FOUND } from '@constants';
 import { prisma } from '@repositories';
 import { UserDto } from '@dtos/out';
-import { FastifyReply, FastifyRequest } from 'fastify';
+import { FastifyReply } from 'fastify';
+import { AuthRequest } from '@interfaces';
+import { Area } from '@prisma/client';
 
-async function getUserById(request: FastifyRequest<{ Headers: { userId: string } }>, reply: FastifyReply): Result<UserDto> {
+async function getUserById(request: AuthRequest, reply: FastifyReply): Result<UserDto> {
     const userId: string = request.headers.userId;
     const user = await prisma.user.findUnique({
         select: {
             id: true,
-            email: true
+            email: true,
+            username: true,
+            phone: true,
+            numOfBusUsage: true,
+            movedDistances: true,
+            area: true,
+            language: true
         },
         where: { id: userId }
     });
@@ -16,6 +24,28 @@ async function getUserById(request: FastifyRequest<{ Headers: { userId: string }
     return user;
 }
 
+async function setArea(request: AuthRequest<{ Body: { area: Area } }>): Result<{ area: Area }> {
+    await prisma.user.update({
+        data: {
+            area: request.body.area
+        },
+        where: { id: request.headers.userId }
+    });
+    return { area: request.body.area };
+}
+
+async function setLanguage(request: AuthRequest<{ Body: { area: Area } }>): Result<{ area: Area }> {
+    await prisma.user.update({
+        data: {
+            area: request.body.area
+        },
+        where: { id: request.headers.userId }
+    });
+    return { area: request.body.area };
+}
+
 export const usersHandler = {
-    getUserById
+    getUserById,
+    setArea,
+    setLanguage
 };

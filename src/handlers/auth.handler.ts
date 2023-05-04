@@ -38,7 +38,8 @@ async function signup(request: FastifyRequest<{ Body: AuthInputDto }>, reply: Fa
         user = await prisma.user.create({
             data: {
                 email: request.body.email,
-                password: hashPassword
+                password: hashPassword,
+                username: request.body.email
             }
         });
     } catch (err) {
@@ -54,7 +55,13 @@ async function signup(request: FastifyRequest<{ Body: AuthInputDto }>, reply: Fa
     };
 }
 
+async function logout(_: FastifyRequest, reply: FastifyReply) {
+    reply.clearCookie('token');
+    return;
+}
+
 export const authHandler = {
     login,
-    signup
+    signup,
+    logout
 };

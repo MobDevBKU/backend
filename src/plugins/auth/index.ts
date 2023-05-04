@@ -28,6 +28,11 @@ export const authPlugin = createPlugin(
                 }
             },
             handler: authHandler.signup
+        },
+        {
+            method: 'POST',
+            url: '/logout',
+            handler: authHandler.logout
         }
     ]
 );

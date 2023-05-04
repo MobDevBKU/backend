@@ -14,7 +14,9 @@ async function generateSampleData() {
     const sampleUser = await prisma.user.create({
         data: {
             email: user.email,
-            password: hashPassword
+            password: hashPassword,
+            username: user.email,
+            phone: '0373395726'
         }
     });
     console.log(sampleUser);
