@@ -20,9 +20,20 @@ export const userPlugin = createPlugin(
         },
         {
             method: 'PATCH',
+            url: '/username',
+            schema: {
+                body: S.object().prop('username', S.string().required()),
+                response: {
+                    200: S.object().prop('username', S.string())
+                }
+            },
+            handler: usersHandler.setUsername
+        },
+        {
+            method: 'PATCH',
             url: '/language',
             schema: {
-                body: S.object().prop('language', S.enum([Language.EN, Language.VI])),
+                body: S.object().prop('language', S.enum([Language.EN, Language.VI]).required()),
                 response: {
                     200: S.object().prop('language', S.enum([Language.EN, Language.VI]))
                 }
@@ -33,7 +44,7 @@ export const userPlugin = createPlugin(
             method: 'PATCH',
             url: '/area',
             schema: {
-                body: S.object().prop('area', S.enum([Area.HCMC, Area.HANOI, Area.DANANG])),
+                body: S.object().prop('area', S.enum([Area.HCMC, Area.HANOI, Area.DANANG]).required()),
                 response: {
                     200: S.object().prop('area', S.enum([Area.HCMC, Area.HANOI, Area.DANANG]))
                 }
