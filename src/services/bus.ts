@@ -3,18 +3,25 @@ import { prisma } from '@repositories';
 import axios, { AxiosResponse } from 'axios';
 
 const httpClient = axios.create({
-    baseURL: 'http://apicms.ebms.vn'
+    baseURL: 'http://apicms.ebms.vn/businfo'
 });
+
+async function getVarsByRoute(routeId: number): Promise<RawVar | null> {
+    const response = await httpClient.get<unknown, AxiosResponse<RawVar[]>>(`/getvarsbyroute/${routeId}`);
+    if (response.data.length > 0) return response.data[0];
+    return null;
+}
 
 async function getAllRoutes() {
     const numOfRoutes = await prisma.route.count();
     if (numOfRoutes > 0) return [];
 
-    const response = await httpClient.get<unknown, AxiosResponse<RawRoute[]>>('/businfo/getallroute');
+    const response = await httpClient.get<unknown, AxiosResponse<RawRoute[]>>('/getallroute');
     const routes: Route[] = response.data.map((route) => ({
         id: route.RouteId,
         no: route.RouteNo,
-        name: route.RouteName
+        name: route.RouteName,
+        stopIds: []
     }));
 
     await prisma.route.createMany({
@@ -25,20 +32,18 @@ async function getAllRoutes() {
     return routes;
 }
 
-// async function getRouteById(routeId: number) {
-//     const response = await httpClient.get(`/businfo/getroutebyid/${routeId}`)
-//     console.log(response.data)
-//     return response.data
-// }
-
 async function getStopsByRouteId(routeId: number, routeNo: string) {
-    const response = await httpClient.get<unknown, AxiosResponse<RawStop[]>>(`/businfo/getstopsbyvar/${routeId}/1`);
+    const routeVar = await getVarsByRoute(routeId);
+    if (routeVar === null) return;
+    const response = await httpClient.get<unknown, AxiosResponse<RawStop[]>>(`/getstopsbyvar/${routeId}/${routeVar.RouteVarId}`);
+
     const stops: Stop[] = response.data.map((stop) => ({
         id: stop.StopId,
         name: stop.Name,
         lat: stop.Lat,
         lng: stop.Lng,
-        type: stop.StopType === 'Bến xe' ? 'STATION' : 'STOP'
+        type: stop.StopType === 'Bến xe' ? 'STATION' : 'STOP',
+        routeNoes: []
     }));
 
     await prisma.stop.createMany({
@@ -46,9 +51,15 @@ async function getStopsByRouteId(routeId: number, routeNo: string) {
         skipDuplicates: true
     });
 
-    await prisma.routeCrossStop.createMany({
-        data: stops.map((stop, idx) => ({ stopId: stop.id, routeNo, order: idx })),
-        skipDuplicates: true
+    const stopIds = stops.map((stop) => stop.id);
+    await prisma.stop.updateMany({
+        data: { routeNoes: { push: routeNo } },
+        where: { id: { in: stopIds } }
+    });
+
+    await prisma.route.update({
+        data: { stopIds: { set: stopIds } },
+        where: { id: routeId }
     });
 }
 

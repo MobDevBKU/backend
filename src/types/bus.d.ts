@@ -1,3 +1,8 @@
+type RawVar = {
+    RouteId: number;
+    RouteVarId: number;
+};
+
 type RawRoute = {
     RouteId: number;
     RouteNo: string;
