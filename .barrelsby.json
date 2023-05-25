@@ -8,8 +8,9 @@
         "./src/middlewares",
         "./src/repositories",
         "./src/utils",
+        "./src/services",
         "./src/interfaces"
     ],
-    "exclude": ["__mock__", "__mocks__", ".spec.ts"],
+    "exclude": ["__mocks__", ".spec.ts"],
     "delete": true
 }

@@ -4,11 +4,11 @@ export const prisma = new PrismaClient({
     log: [
         {
             emit: 'event',
-            level: 'query'
+            level: 'error'
         }
     ]
 });
 
-prisma.$on('query', (e) => {
+prisma.$on('error', (e) => {
     global.logger.info(e);
 });
