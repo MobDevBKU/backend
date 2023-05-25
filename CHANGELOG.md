@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.2.0](https://github.com/MobDevBKU/backend/compare/v1.1.1...v1.2.0) (2023-05-25)
+
+
+### Features
+
+* **bus routing:** enable find paths with 2 bus routes ([1ad10f9](https://github.com/MobDevBKU/backend/commit/1ad10f9be4ed65a518a6209162fad2db3dcd2991))
+
+
+### Bug Fixes
+
+* **bus:** fix routing algorithm ([bf2eeba](https://github.com/MobDevBKU/backend/commit/bf2eebad3852bbaba26fd8852170f01c9e862b90))
+
 ## [1.1.1](https://github.com/MobDevBKU/backend/compare/v1.1.0...v1.1.1) (2023-05-25)
 
 
