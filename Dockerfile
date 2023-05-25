@@ -26,5 +26,5 @@ ENV NODE_ENV=production
 COPY --chown=node:node --from=development /app/dist .
 COPY --chown=node:node --from=development /app/node_modules node_modules
 
-EXPOSE 8080
+EXPOSE 8071
 CMD yarn db:deploy && node index.js

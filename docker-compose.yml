@@ -20,7 +20,7 @@ services:
     image: 'ghcr.io/mobdevbku/buswise-be:latest'
     container_name: buswise_be
     ports:
-      - 8080:8080
+      - 8071:8071
     volumes:
       - .env:/app/.env
     depends_on:
