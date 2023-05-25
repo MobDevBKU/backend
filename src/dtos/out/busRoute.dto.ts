@@ -27,4 +27,4 @@ export type BusRouteDto = {
     name: string;
     no: string;
     stops: StopRouteDto[];
-};
+}[];
