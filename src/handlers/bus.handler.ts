@@ -48,7 +48,6 @@ async function getRouting(request: FastifyRequest<{ Body: FindBusRouteDto }>): R
         select: { id: true, routeNoes: true },
         where: { id: destNearestBusStop.id }
     });
-    console.log(srcBusStop, destBusStop);
 
     const routeNoesCrossSrc = srcBusStop.routeNoes.filter((x) => !destBusStop.routeNoes.includes(x));
     const routeNoesCrossDest = destBusStop.routeNoes.filter((x) => !srcBusStop.routeNoes.includes(x));
@@ -113,7 +112,7 @@ async function getRouting(request: FastifyRequest<{ Body: FindBusRouteDto }>): R
     const results = await Promise.all(
         routesCrossSrc.map((routeCrossSrc) => {
             const intersections = routesCrossDest
-                .map((routeCrossDest) => _getStopIntersection(routeCrossSrc, routeCrossDest, srcBusStop.id, destBusStop.id))
+                .map((routeCrossDest) => _getStopIntersection(routeCrossSrc, routeCrossDest))
                 .filter((item) => item !== null);
 
             return Promise.all(
@@ -161,27 +160,22 @@ async function getRouting(request: FastifyRequest<{ Body: FindBusRouteDto }>): R
     return results.flat();
 }
 
-function _getStopIntersection(routeCrossSrc: Route, routeCrossDest: Route, srcStopId: number, destStopId: number) {
-    routeCrossSrc.stopIds = routeCrossSrc.stopIds.slice(
-        routeCrossSrc.stopIds.indexOf(srcStopId),
-        routeCrossSrc.stopIds.indexOf(destStopId) + 1
-    );
-    routeCrossDest.stopIds = routeCrossDest.stopIds.slice(
-        routeCrossDest.stopIds.indexOf(srcStopId),
-        routeCrossDest.stopIds.indexOf(destStopId) + 1
-    );
+function _getStopIntersection(routeCrossSrc: Route, routeCrossDest: Route) {
+    const srcStopIds = routeCrossSrc.stopIds;
+    const destStopIds = routeCrossDest.stopIds;
 
-    for (const stopId1 of routeCrossSrc.stopIds) {
+    for (const stopId1 of srcStopIds) {
         for (const stopId2 of routeCrossDest.stopIds) {
             if (stopId1 !== stopId2) continue;
+            console.log(stopId1);
             return {
                 crossSrc: {
                     ...routeCrossSrc,
-                    stopIds: routeCrossSrc.stopIds.slice(0, routeCrossSrc.stopIds.indexOf(stopId2) + 1)
+                    stopIds: srcStopIds.slice(0, srcStopIds.indexOf(stopId2) + 1)
                 },
                 crossDest: {
                     ...routeCrossDest,
-                    stopIds: routeCrossDest.stopIds.slice(routeCrossDest.stopIds.indexOf(stopId2))
+                    stopIds: destStopIds.slice(destStopIds.indexOf(stopId2))
                 },
                 interSectionStopId: stopId1
             };
