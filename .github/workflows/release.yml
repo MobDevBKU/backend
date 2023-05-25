@@ -94,7 +94,7 @@ jobs:
             echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
             echo CORS_WHITE_LIST=${{ vars.CORS_WHITE_LIST }} >> .env
               
-            curl https://raw.githubusercontent.com/mobdevbku/buswise-be/master/docker-compose.yml -o docker-compose.yml
+            curl https://raw.githubusercontent.com/mobdevbku/backend/master/docker-compose.yml -o docker-compose.yml
             docker-compose down
             docker-compose up -d
             

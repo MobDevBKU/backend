@@ -12,29 +12,19 @@ datasource db {
 }
 
 model Route {
-  id    Int              @id
-  no    String           @unique @db.VarChar(10)
-  name  String           @db.VarChar(512)
-  stops RouteCrossStop[]
-}
-
-model RouteCrossStop {
-  route   Route  @relation(fields: [routeNo], references: [no])
-  stop    Stop   @relation(fields: [stopId], references: [id])
-  routeNo String @db.VarChar(10)
-  order   Int
-  stopId  Int
-
-  @@id([stopId, routeNo, order])
+  id      Int    @id
+  no      String @unique @db.VarChar(10)
+  name    String @db.VarChar(512)
+  stopIds Int[]
 }
 
 model Stop {
-  id     Int              @id
-  lng    Float
-  lat    Float
-  name   String           @db.VarChar(512)
-  type   StopType
-  routes RouteCrossStop[]
+  id        Int      @id
+  lng       Float
+  lat       Float
+  name      String   @db.VarChar(512)
+  type      StopType
+  routeNoes String[]
 }
 
 model User {
