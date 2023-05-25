@@ -11,6 +11,32 @@ datasource db {
   relationMode = "foreignKeys"
 }
 
+model Route {
+  id    Int              @id
+  no    String           @unique @db.VarChar(10)
+  name  String           @db.VarChar(512)
+  stops RouteCrossStop[]
+}
+
+model RouteCrossStop {
+  route   Route  @relation(fields: [routeNo], references: [no])
+  stop    Stop   @relation(fields: [stopId], references: [id])
+  routeNo String @db.VarChar(10)
+  order   Int
+  stopId  Int
+
+  @@id([stopId, routeNo, order])
+}
+
+model Stop {
+  id     Int              @id
+  lng    Float
+  lat    Float
+  name   String           @db.VarChar(512)
+  type   StopType
+  routes RouteCrossStop[]
+}
+
 model User {
   id              String          @id @default(cuid())
   username        String          @unique @db.VarChar(50)
@@ -62,4 +88,9 @@ enum Area {
   HCMC
   HANOI
   DANANG
+}
+
+enum StopType {
+  STATION
+  STOP
 }

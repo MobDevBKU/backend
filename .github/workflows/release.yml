@@ -1,25 +1,41 @@
-name: CD
+name: Release & deploy
 
 on:
   push:
-    branches: ["master"]
+    branches:
+      - master
+
+permissions:
+  contents: write
+  pull-requests: write
+  packages: write
 
 env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
   # Image name MUST have a pattern like <org_name_lowercase>/<repo_name_lowercase>
   IMAGE_NAME: mobdevbku/buswise-be
-  IMAGE_TAG: 0.1.0
-  # username login to ghcr MUST be organization or personal name in lower case
-  CD_USERNAME: mobdevbku
-
-permissions:
-  packages: write
+  CD_USERNAME: ${{ github.actor }}
 
 jobs:
+  release:
+    runs-on: ubuntu-latest
+    outputs:
+      build: ${{ steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
+    steps:
+      - uses: google-github-actions/release-please-action@v3
+        id: release
+        with:
+          release-type: node
+          pull-request-header: "Bot (:robot:) requested to create a new release on ${{ github.ref_name }}"
+
+  # Use if need to build package
   build:
     name: Build
+    needs: [release]
     runs-on: ubuntu-latest
+    if: ${{ needs.release.outputs.build == 'true' }}
     steps:
       - uses: actions/checkout@v3
         name: Checkout repository
@@ -44,7 +60,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ needs.release.outputs.tag_name }}
 
   # deploy:
   #   name: Deploy
