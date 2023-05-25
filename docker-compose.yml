@@ -17,7 +17,7 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    image: ghcr.io/mobdevbku/buswise-be:0.1.0
+    image: ghcr.io/mobdevbku/buswise-be:latest
     container_name: buswise_be
     ports:
       - 8080:8080
