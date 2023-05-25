@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/MobDevBKU/backend/compare/v1.0.0...v1.0.1) (2023-05-25)
+
+
+### Bug Fixes
+
+* **port:** change to 8071 ([7c42da1](https://github.com/MobDevBKU/backend/commit/7c42da1b613a1037604bd53b6dac924381c49698))
+
 ## 1.0.0 (2023-05-25)
 
 
