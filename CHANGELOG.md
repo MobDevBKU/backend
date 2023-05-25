@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/MobDevBKU/backend/compare/v1.0.2...v1.1.0) (2023-05-25)
+
+
+### Features
+
+* **bus:** find routing like busmap ([04081eb](https://github.com/MobDevBKU/backend/commit/04081eb563a6f48f87e23252fe43ff28e50d2906))
+
 ## [1.0.2](https://github.com/MobDevBKU/backend/compare/v1.0.1...v1.0.2) (2023-05-25)
 
 
